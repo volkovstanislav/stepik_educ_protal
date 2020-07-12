@@ -6,8 +6,6 @@ from wtforms import StringField, HiddenField, RadioField
 from wtforms.validators import InputRequired
 from flask import Flask, render_template, request
 
-import os
-
 # Импортируем данные для передачи их в шаблон
 import data
 
@@ -125,6 +123,7 @@ def request_done():
             'time_has': time_has
         }
 
+
         insert_dict = {}
         key = hash(str(form.name.data)+'\\'+str(form.phone.data)+'\\'+str(lesson)+'\\'+str(time_has))
         insert_dict[key] = append_dict
@@ -140,8 +139,4 @@ def request_done():
         return 'Ошибка'
 
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port)
-
-
-
+    app.run('0.0.0.0',7000)
