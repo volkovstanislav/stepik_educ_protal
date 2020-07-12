@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<main class="container mt-3">
+    <div class="card my-4 mx-auto">
+      <div class="card-body m-2 m-md-4">
+        <article class="row">
+          <div class="col-5"><img src="{{ teacher.picture }}" class="img-fluid" alt=""></div>
+          <div class="col-7">
+
+            <section class="teacher=info">
+
+              <h1 class="h2">{{ teacher.name }}</h1>
+              <p>{% for g in goals %} <span class="badge badge-secondary mr-2">{{ g }}</span>{% endfor %} Рейтинг: {{ teacher.rating }} Ставка: {{ teacher.price }} / час</p>
+              <p>{{ teacher.about }}</p>
+
+            </section>
+
+            <section class="available">
+
+              <h4 class="mb-4 mt-5">Записаться на пробный урок</h4>
+
+              {% for k,v in teacher.free.items() %}
+                {% if k == 'mon' %}
+                <h6 class="mt-4">Понедельник</h6>
+                {% elif k == 'tue' %}
+                <h6 class="mt-4">Вторник</h6>
+                {% elif k == 'wed' %}
+                <h6 class="mt-4">Среда</h6>
+                {% elif k == 'thu' %}
+                <h6 class="mt-4">Четверг</h6>
+                {% elif k == 'fri' %}
+                <h6 class="mt-4">Пятница</h6>
+                {% elif k == 'sat' %}
+                <h6 class="mt-4">Суббота</h6>
+                {% else %}
+                <h6 class="mt-4">Воскресенье</h6>
+                {% endif %}
+
+                {% if v.values()|sum == 0 %}
+                  <p>Нет свободных уроков</p>
+                {% else %}
+                  {% for time, b in v.items() %}
+                      {% if b %}
+                        <a href="/booking/{{ teacher.id }}/{{ k }}/{{ time|replace(':00', '') }}" class="btn btn-outline-success mr-2">{{ time }} свободно</a>
+                      {% endif %}
+                    {% endfor %}
+                {% endif %}
+              {% endfor %}
+
+            </section>
+          </div>
+        </article>
+      </div>
+
+    </div>
+  </main>
+
+{% endblock %}
